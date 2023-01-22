@@ -8,10 +8,10 @@ export const BottomButton = ({ icon, text, onPress }: any) => {
       style={{
         position: 'absolute',
         alignSelf: 'center',
-        bottom: normalize(15),
+        bottom: normalize(10),
       }}
     >
-      <Button icon={icon} size={25} text={text} onPress={onPress} />
+      <Button icon={icon} size={15} text={text} onPress={onPress} />
     </View>
   )
 }

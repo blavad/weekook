@@ -1,17 +1,40 @@
-import { ImageBackground, View } from 'react-native'
+import { useCallback } from 'react'
+import { Text, View, StyleSheet } from 'react-native'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 import MainApp from './src/app'
-import { Button, i18n } from '@unboared/base-ui.all';
-import { en, fr } from "./src/translations"
+import { Button, i18n } from '@unboared/base-ui.all'
+import { en, fr } from './src/translations'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 i18n.translations = { en, fr }
 
+SplashScreen.preventAutoHideAsync()
+
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    GoodDogRegular: require('./assets/fonts/gooddog-plain.regular.ttf'),
+    MontserratBold: require('./assets/fonts/Montserrat/Montserrat-Bold.ttf'),
+    OpenSansRegular: require('./assets/fonts/OpenSans/OpenSans-Regular.ttf'),
+    OpenSansBold: require('./assets/fonts/OpenSans/OpenSans-Bold.ttf'),
+    OpenSansSemiBold: require('./assets/fonts/OpenSans/OpenSans-SemiBold.ttf'),
+  })
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded])
+
+  if (!fontsLoaded) {
+    return null
+  }
+
   return (
-      <MainApp />
-      // <View>
-      //   <Button text="Hello"/>
-      //   <Button text="Hello"/>
-      //   <Button text="Hello"/>
-      // </View>
+    <SafeAreaProvider>
+      <View style={{width:'100%', height:'100%'}} onLayout={onLayoutRootView}>
+        <MainApp />
+      </View>
+    </SafeAreaProvider>
   )
 }

@@ -4,7 +4,7 @@ export const Logo = ({ size }: { size?: number }) => {
   const { normalize } = useNormalize()
   return (
     <Heading
-      style={{ fontFamily: 'GooddogRegular', fontSize: normalize(size || 35) }}
+      style={{ fontFamily: 'GoodDogRegular', fontSize: normalize(size || 20) }}
       type="h1"
       text="Weekook"
     />

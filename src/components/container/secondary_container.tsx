@@ -1,13 +1,15 @@
-import { ImageBackground, View } from 'react-native'
+import { Appearance, ImageBackground, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { BackgroundImg } from '../../const'
+import { BackgroundImgDark, BackgroundImgLight } from '../../const'
 import { Header } from '../header'
 
 export default function SecondaryContainer({ children }: any) {
   const insets = useSafeAreaInsets()
+  const colorScheme = Appearance.getColorScheme()
+
   return (
     <ImageBackground
-      source={BackgroundImg}
+      source={colorScheme === 'dark' ? BackgroundImgDark : BackgroundImgLight}
       resizeMode="stretch"
       style={{
         flex: 1,

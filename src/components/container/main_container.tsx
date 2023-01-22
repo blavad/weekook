@@ -1,14 +1,16 @@
-import { Heading } from '@unboared/base-ui.all'
-import { ImageBackground, View } from 'react-native'
+import { Theme } from '@unboared/base-ui.all'
+import { Appearance, ImageBackground, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { BackgroundImg } from '../../const'
+import { BackgroundImgDark, BackgroundImgLight } from '../../const'
 import { Header } from '../header'
 
 export default function Container({ children }: any) {
   const insets = useSafeAreaInsets()
+  const colorScheme = Appearance.getColorScheme()
+
   return (
     <ImageBackground
-      source={BackgroundImg}
+      source={colorScheme === 'dark' ? BackgroundImgDark : BackgroundImgLight}
       resizeMode="stretch"
       style={{
         flex: 1,
