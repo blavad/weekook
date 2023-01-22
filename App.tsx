@@ -1,20 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, View } from 'react-native'
+import MainApp from './src/app'
+import { Button, i18n } from '@unboared/base-ui.all';
+import { en, fr } from "./src/translations"
+
+i18n.translations = { en, fr }
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+      <MainApp />
+      // <View>
+      //   <Button text="Hello"/>
+      //   <Button text="Hello"/>
+      //   <Button text="Hello"/>
+      // </View>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

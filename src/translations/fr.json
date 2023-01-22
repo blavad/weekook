@@ -1,0 +1,280 @@
+{
+    "common": {
+        "navigation": {
+            "games": "Jeux",
+            "search": "Recherche",
+            "settings": "Options"
+        },
+        "manageAccount": {
+            "logout": {
+                "error": "Échec lors de la déconnexion"
+            },
+            "deleteAccount": {
+                "error": "Échec lors de la suppression du compte"
+            }
+        },
+        "signup": {
+            "title": "Créez votre compte gratuit",
+            "submitButton": "Sign In",
+            "terms": {
+                "conditions": {
+                    "title": "J'accepte les conditions*",
+                    "description": "En cochant la case à droite, vous acceptez toutes les conditions d'Unboared.",
+                    "moreInfos": "Vous pouvez le trouver ici"
+                },
+                "newsletter": {
+                    "title": "Je veux recevoir les bonnes nouvelles",
+                    "description": "En cochant la case à droite, vous serez ajouté à notre liste de nouvelles pour recevoir toutes nos informations."
+                }
+            },
+            "alreadyAccount": {
+                "message": "Vous avez déjà un compte ?",
+                "login": "Se connecter"
+            }
+        },
+        "signin": {
+            "title": "Bienvenue sur Unboared",
+            "description": "Connectez-vous pour vous amuser !",
+            "or": "OU",
+            "email_password": {
+                "email": {
+                    "label": "Email",
+                    "placeholder": "Votre e-mail",
+                    "invalid_email_address": "Adresse e-mail non valide",
+                    "user_not_found": "Utilisateur introuvable",
+                    "already_in_use": "E-mail déjà utilisé",
+                    "missing_email": "E-mail manquant",
+                    "too_many_request": "Accès temporairement désactivé",
+                    "user_mismatch": "Incohérence entre les comptes",
+                    "unknown_error": "Erreur inconnue"
+                },
+                "password": {
+                    "label": "Mot de passe",
+                    "placeholder": "Votre mot de passe",
+                    "wrong_password": "Mot de passe incorrect",
+                    "weak_password": "Sécurité du mot de passe faible",
+                    "missing_password": "Mot de passe manquant"
+                },
+                "submitButton": "Se connecter",
+                "forgotPassword": {
+                    "message": "Mot de passe oublié ?"
+                }
+            },
+            "google": {
+                "submitButton": "Se connecter avec Google",
+                "error": "Unknown error"
+            },
+            "guest": {
+                "submitButton": "Essayez sans compte",
+                "feature1": "- Accès à 1 jeu",
+                "feature2": "- Jusqu'à 4 joueurs",
+                "error": "Unknown error"
+            },
+            "noAccount": {
+                "message": "Pas de compte ?",
+                "createAccount": "Créer un compte"
+            }
+        },
+        "forgotPassword": {
+            "title": "Vous avez oublié votre mot de passe ?",
+            "description": "",
+            "label": "Nouveau mot de passe",
+            "placeholder": "Nouveau mot de passe",
+            "submitButton": "Changer mon mot de passe"
+        },
+        "email_auth": {
+            "title": "Vous êtes presque prêt à jouer !",
+            "description": "Cliquez sur le lien que nous avons envoyé dans votre messagerie",
+            "submitButton": "Ouvrir"
+        },
+        "orientationPage": {
+            "message": "Changez l'orientation de l'écran pour continuer."
+        }
+    },
+    "screen": {
+        "common": {
+            "description": "Avec vos téléphones et un ordinateur (ou une télévision), découvrez une nouvelle façon de jouer avec vos proches avec Unboared."
+        },
+        "alerts": {
+            "not_available_game": {
+                "title": "arrive bientôt.",
+                "message": "n'est pas encore disponible. Attendez encore un peu, il arrive vite."
+            },
+            "not_enough_players": {
+                "title": "Pas assez de joueurs.",
+                "message1_1": "Pour jouer à",
+                "message1_2": "vous devez être au moins",
+                "message1_3": "joueurs.",
+                "message2_1": "Pour ajouter plus de joueurs, cliquez sur",
+                "message2_2": "sur votre téléphone."
+            }
+        },
+        "connexionPage": {
+            "title": "Prenez votre téléphone pour commencer à jouer",
+            "help1": "💡 Quand tous les joueurs sont connectés, cliquez sur ",
+            "help2": " pour fermer cette fenêtre",
+            "qrTitle": "Connexion via le QR code",
+            "sessionTitle": "Connexion via le code pin",
+            "sessionHelp": "Allez sur unboared.com avec votre téléphone et cliquez sur \"Join a game\"",
+            "connectedPlayers": " joueurs connectés"
+        },
+        "pausePage": {
+            "title": "PAUSE",
+            "buttons": {
+                "resume": {
+                    "title": "Reprendre"
+                },
+                "restart": {
+                    "title": "Recommencer"
+                },
+                "home": {
+                    "title": "Menu principal"
+                }
+            },
+            "systemActions": {
+                "connexionInfos": "Ajouter des joueurs",
+                "volume": "Sourdine on/off",
+                "fullscreen": "Plein écran on/off"
+            }
+        },
+        "gamesPage": {
+            "connexionHelp1": "Cliquez sur",
+            "connexionHelp2": "pour ajouter des joueurs.",
+            "connectedPlayers": "Joueurs connectés"
+        },
+        "accessPage": {
+            "title": "C'est parti !",
+            "codeTitle": "Votre code d'accès*",
+            "codeInput": {
+                "placeholder": "Votre code d'accès",
+                "submitMessage": "Démarrer"
+            },
+            "infos": "* Vous n'avez pas encore le code d'accès ?",
+            "infosBtn": "Cliquez ici pour l'obtenir !"
+        },
+        "launchPage": {
+            "launchTitle": "Bon retour sur Unboared",
+            "launchBtn": "Démarrer"
+        },
+        "communityPage": {
+            "title": "Obtenir mon code d'accès !",
+            "description": "Rejoignez notre communauté pour obtenir le code et être informé de l'actualité d'Unboared.",
+            "emailTitle": "Par email",
+            "emailPlaceholder": "Ton email",
+            "emailSubmit": "Me prévenir",
+            "discordTitle": "Avec Discord",
+            "discordBtnText": "Serveur Discord"
+        },
+        "homePage": {
+            "hero": {
+                "numPlayers": "%{numPlayers} joueurs",
+                "play": "Lancer le jeu",
+                "loved": "Jeu favori"
+            }
+        },
+        "settingPage": {
+            "myAccount": {
+                "title": "Mon compte",
+                "infos": {
+
+                },
+                "action": {
+                    "changeEmail": {
+                        "title": "Modifier l'adresse e-mail du compte"
+                    },
+                    "changePassword": {
+                        "title": "Changer le mot de passe"
+                    },
+                    "changeUnguy": {
+                        "title": "Changez mon Unguy"
+                    },
+                    "deleteAccount": {
+                        "title": "Supprimer mon compte",
+                        "popup": {
+                            "title": "Êtes-vous absolument sûre ?",
+                            "description": "Cette action est irréversible. Elle supprimera définitivement votre compte et toutes les données qui s'y rapportent.",
+                            "description2": "Cela inclut les données personnelles, les scores et les préférences utilisateurs. ",
+                            "validate": "Supprimer mon compte"
+                        }
+                    },
+                    "updatePassword": {
+                        "title": "Changer mon mot de passe",
+                        "popup": {
+                            "title": "Changer mon mot de passe",
+                            "description": "Cette action va changer le mot de passe associé à %{email}.",
+                            "input": {
+                                "label": "Nouveau mot de passe",
+                                "placeholder": "Nouveau mot de password"
+                            },
+                            "validate": "Changer mon mot de passe",
+                            "cancel": "Fermer"
+                        }
+                    },
+                    "logout": {
+                        "title": "Déconnexion",
+                        "popup": {
+                            "title": "Voulez-vous être déconnecté ?",
+                            "validate": "Oui, me déconnecter",
+                            "cancel": "Non"
+                        }
+                    },
+                    "reauthenticate": {
+                        "requires": "Nécessite une connexion récente",
+                        "popup": {
+                            "title": "Nous devons vérifier votre identité",
+                            "description": "Il s'agit d'une action sensible. Veuillez vous réauthentifier pour valider.",
+                            "validate": "Valider",
+                            "cancel": "Annuler",
+                            "google": {
+                                "title": "Authentification avec Google"
+                            },
+                            "password": {
+                                "title": "Authentification pour %{email}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "gamepad": {
+        "platform": {
+            "waitingPage": {
+                "infos": " est le maître du jeu.",
+                "help": "Attendez ou aidez %{master} à choisir un jeu !"
+            },
+            "openFullscreenPage": {
+                "infos": "Tapez sur l'écran pour passer en mode plein écran."
+            }
+        },
+        "settingPage": {
+            "help": "💡 Utilisez l'écran principal pour modifier les paramètres du compte."
+        },
+        "joinPage": {
+            "instruction1": "1. Connectez-vous à unboared.com sur un ordinateur.",
+            "instruction2": "2. Entrez le code bêta-testeur reçu par mail ou sur Discord.",
+            "instruction3": {
+                "title": "3. Pour appairer un téléphone:",
+                "option1": "scannez le QR code avec la caméra du téléphone",
+                "option2": "écrivez le code session ci-dessous"
+            },
+            "codeSession": {
+                "title": "Code",
+                "instruction": "Rentrez le code session ici"
+            }
+        },
+        "profileSetting": {
+            "title": "Paramètres Profil",
+            "avatarLabel": "Cliquez pour changer d'avatar",
+            "usernamePlaceholder": "Votre pseudo",
+            "create": {
+                "usernameLabel": "Quel est votre nom ?",
+                "submitText": "Rejoindre le jeu"
+            },
+            "change": {
+                "usernameLabel": "Nouveau pseudo ?",
+                "submitText": "Save"
+            }
+        }
+    }
+}
