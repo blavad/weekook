@@ -5,7 +5,8 @@ export const BackgroundImgLight = journalBG
 export const BackgroundImgDark = journalBGDark
 
 export const SPACE = {
-    tiny: 5,
+    tiny: 2,
+    smaller: 5,
     small: 10,
     medium: 15,
     large: 20,

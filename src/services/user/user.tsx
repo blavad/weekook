@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import { db as firebaseDB } from '../users_api/config'
 import { usersAPI } from '../users_api/users_api'
 import { useAuth, useAuthManager } from '../auth'
 import { createGlobalStorage } from '@unboared/utils.storage'
-import {
-  initialUser,
-  initialUserState,
-  UserState,
-} from './user_state'
+import { initialUser, initialUserState, UserState } from './user_state'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 /* The store that keep informations about the authentification */
 export const useActiveUser = createGlobalStorage<UserState>((set, get) => ({
@@ -80,6 +78,17 @@ export const useActiveUser = createGlobalStorage<UserState>((set, get) => ({
  */
 export const useActiveUserManager = (id: string) => {
   const loadUserData = useActiveUser((state) => state.loadUserData)
+
+  useEffect(() => {
+    if (id) {
+      const docRef = doc(firebaseDB, 'utilisateurs', id)
+      const unsub = onSnapshot(docRef, (doc) => {
+        loadUserData(id)
+      })
+      return unsub
+    }
+  }, [id])
+
   useEffect(() => {
     loadUserData(id)
   }, [id])

@@ -3,15 +3,11 @@ import * as Linking from 'expo-linking'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  Button,
-  Heading,
-  ThemeProvider,
-  unboaredTheme,
-  useGamepadScale,
-} from '@unboared/base-ui.all'
+import { ThemeProvider, useGamepadScale } from '@unboared/base-ui.all'
+import MyHomeScreen from './screens/my_home'
 import RecipesScreen from './screens/recipes'
 import RecipeScreen from './screens/recipe'
+import CreateRecipeScreen from './screens/create_recipe'
 import GeneratorScreen from './screens/generator'
 
 import { Appearance } from 'react-native'
@@ -24,19 +20,22 @@ import { SignUp } from './screens/common/signup'
 import { weekookDarkTheme, weekookLightTheme } from './theme/theme'
 import { useActiveUser, useActiveUserManager } from './services/user'
 import { UserSelectionAndLaunch } from './screens/user_selection/user_selection'
-import { useUser } from './services/users_api'
+import ModifyRecipesScreen from './screens/modify_recipe'
 
 SplashScreen.preventAutoHideAsync()
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
-const MyRecipesStack = () => {
+const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Recipes"
+      initialRouteName="MyHome"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="MyHome" component={MyHomeScreen} />
+      <Stack.Screen name="CreateRecipe" component={CreateRecipeScreen} />
+      <Stack.Screen name="ModifyRecipe" component={ModifyRecipesScreen} />
       <Stack.Screen name="Recipes" component={RecipesScreen} />
       <Stack.Screen name="Recipe" component={RecipeScreen} />
     </Stack.Navigator>
@@ -46,10 +45,10 @@ const MyRecipesStack = () => {
 const AppTab = () => {
   return (
     <Tab.Navigator
-      initialRouteName="MyRecipes"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
-      <Tab.Screen name="MyRecipes">{() => <MyRecipesStack />}</Tab.Screen>
+      <Tab.Screen name="Home">{() => <HomeStack />}</Tab.Screen>
       <Tab.Screen name="Generator" component={GeneratorScreen} />
     </Tab.Navigator>
   )
@@ -62,10 +61,10 @@ const MainStack = () => {
   }
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="MainApp"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home">{() => <AppTab />}</Stack.Screen>
+      <Stack.Screen name="MainApp">{() => <AppTab />}</Stack.Screen>
       <Stack.Screen name="Settings" component={RecipeScreen} />
     </Stack.Navigator>
   )
@@ -79,22 +78,28 @@ const AppStack = () => {
   // Update the user data according to the authentified user
   useActiveUserManager(auth?.uid)
 
-  console.log(auth)
-
   // Check if initial loading
   const initialLoading = useAuth((state) => state.initialLoading)
 
-  console.log(initialLoading)
   return !isAuthentified(auth) ? <SignUp /> : <MainStack />
 }
 
 // Configure paths to screens and gamepads
 const config = {
   screens: {
-    Home: {
+    MainApp: {
       screens: {
-        MyRecipes: {
+        Home: {
           screens: {
+            MyHome: {
+              path: '/home',
+            },
+            CreateRecipe: {
+              path: '/create',
+            },
+            ModifyRecipe: {
+              path: '/modify/:recipeID',
+            },
             Recipes: {
               path: '/recipes/:userID',
               parse: {
@@ -110,7 +115,6 @@ const config = {
           },
         },
         Generator: '/generator',
-        Create: '/create',
       },
       // Weeks: '/weeks',
       // Week: '/week/:weekID',
@@ -144,9 +148,7 @@ export default function App(props: NavigationProps) {
       {...props}
     >
       <ThemeProvider
-        theme={
-          colorScheme === 'dark' ? unboaredTheme.dark : unboaredTheme.light
-        }
+        theme={colorScheme === 'dark' ? weekookDarkTheme : weekookLightTheme}
       >
         <AppStack />
       </ThemeProvider>

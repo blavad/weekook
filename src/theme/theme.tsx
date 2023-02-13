@@ -36,9 +36,9 @@ export const weekook_color = {
 }
 
 
-const greenLightColorTheme = {
+const lightColorTheme = {
     mode: 'light',
-    currentPalette: palette.green,
+    currentPalette: palette.white,
     backgroundColor: color.light,
     titleColor: color.dark,
     textColor: color.dark,
@@ -49,10 +49,10 @@ const greenLightColorTheme = {
     color: color,
 }
 
-const greenDarkColorTheme = {
+const darkColorTheme = {
     /* COLORS */
     mode: 'dark',
-    currentPalette: palette.green,
+    currentPalette: palette.black,
     backgroundColor: color.dark,
     titleColor: color.light,
     textColor: color.light,
@@ -63,48 +63,20 @@ const greenDarkColorTheme = {
     color: color,
 }
 
-const yellowColorTheme = {
-    /* COLORS */
-    mode: 'dark',
-    currentPalette: palette.yellow,
-    backgroundColor: color.dark,
-    titleColor: color.light,
-    textColor: color.light,
-    buttonColor: palette.yellow.c500,
-    buttonTextColor: color.light,
-    secondaryButtonColor: transparency('dark'),
-    secondaryButtonTextColor: color.light,
-    color: color,
-}
-
-const blueColorTheme = {
-    /* COLORS */
-    mode: 'dark',
-    currentPalette: palette.blue,
-    backgroundColor: color.dark,
-    titleColor: color.light,
-    textColor: color.light,
-    buttonColor: palette.blue.c500,
-    buttonTextColor: color.light,
-    secondaryButtonColor: transparency('dark'),
-    secondaryButtonTextColor: color.light,
-    color: color,
-}
-
 const unboaredDesignTheme = {
     /* FONTS */
     primaryTitleFont: 'GoodDogRegular',
-    secondaryTitleFont: 'GoodDogRegular',
-    textFont: 'OpenSansRegular',
-    buttonFont: 'OpenSansSemiBold',
+    secondaryTitleFont: 'KalamRegular',
+    textFont: 'KalamLight',
+    buttonFont: 'KalamRegular',
 
     /* TITLE SIZE */
-    sizeH1: 22,
-    sizeH2: 16,
-    sizeH3: 12,
-    sizeH4: 10,
-    sizeH5: 8,
-    sizeP: 10,
+    sizeH1: 18,
+    sizeH2: 14,
+    sizeH3: 10,
+    sizeH4: 8,
+    sizeH5: 5,
+    sizeP: 9,
 
     /* BOXES */
     borderRadius: 16,
@@ -112,18 +84,8 @@ const unboaredDesignTheme = {
 }
 
 
-const unboaredSongTheme = {
-    /* SONGS */
-    song: {
-        main: 'https://raw.githubusercontent.com/unboared/public-assets/master/sounds/Ambiance.mp3',
-        move: 'https://raw.githubusercontent.com/unboared/public-assets/master/sounds/Move.mp3',
-        validate: 'https://raw.githubusercontent.com/unboared/public-assets/master/sounds/Validate.mp3',
-    }
-}
-
-
-export const unboaredGreenDarkTheme = Object.assign({}, unboaredDesignTheme, greenDarkColorTheme, unboaredSongTheme);
-export const unboaredGreenLightTheme = Object.assign({}, unboaredDesignTheme, greenLightColorTheme, unboaredSongTheme);
+export const unboaredGreenDarkTheme = Object.assign({}, unboaredDesignTheme,  darkColorTheme);
+export const unboaredGreenLightTheme = Object.assign({}, unboaredDesignTheme, lightColorTheme);
 
 export const weekookDarkTheme = Object.assign({}, unboaredGreenDarkTheme, {});
 export const weekookLightTheme = Object.assign({}, unboaredGreenLightTheme, {});

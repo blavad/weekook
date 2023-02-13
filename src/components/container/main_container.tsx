@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BackgroundImgDark, BackgroundImgLight } from '../../const'
 import { Header } from '../header'
 
-export default function Container({ children }: any) {
+export default function Container({ style, children }: any) {
   const insets = useSafeAreaInsets()
   const colorScheme = Appearance.getColorScheme()
 
@@ -25,11 +25,11 @@ export default function Container({ children }: any) {
     >
       <Header style={{ flex: 0.05 }} />
       <View
-        style={{
+        style={[{
           flex: 0.95,
           alignItems: 'center',
           alignSelf: 'stretch',
-        }}
+        }, style]}
       >
         {children}
       </View>

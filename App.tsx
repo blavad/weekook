@@ -14,6 +14,8 @@ SplashScreen.preventAutoHideAsync()
 export default function App() {
   const [fontsLoaded] = useFonts({
     GoodDogRegular: require('./assets/fonts/gooddog-plain.regular.ttf'),
+    KalamLight: require('./assets/fonts/Kalam/Kalam-Light.ttf'),
+    KalamRegular: require('./assets/fonts/Kalam/Kalam-Regular.ttf'),
     MontserratBold: require('./assets/fonts/Montserrat/Montserrat-Bold.ttf'),
     OpenSansRegular: require('./assets/fonts/OpenSans/OpenSans-Regular.ttf'),
     OpenSansBold: require('./assets/fonts/OpenSans/OpenSans-Bold.ttf'),

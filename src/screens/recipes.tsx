@@ -7,13 +7,13 @@ import { ScrollView } from 'react-native'
 import { useRecipes, useUser } from '../services/users_api/users_api'
 import { ActivityIndicator } from '../components/loaders'
 import { useActiveUser } from '../services/user'
+import { useLinkTo } from '@react-navigation/native'
 
-export default function RecipesScreen({ navigation, route }: any) {
-  const { normalize } = useNormalize()
-  const { user } = useActiveUser()
-  // const isMe = !(route.params.userID && route.params.userID !== 'undefined')
-  // const uid = isMe ? route.params.userID : user.uid
-  const recipes = useRecipes(user.uid)
+export function RecipesForUser({ userID }: { userID: string }) {
+  const { user: me } = useActiveUser()
+  const recipes = useRecipes(userID)
+
+  const linkTo = useLinkTo()
 
   return (
     <>
@@ -23,12 +23,26 @@ export default function RecipesScreen({ navigation, route }: any) {
             <ActivityIndicator />
           ) : (
             recipes.map((recipe: any, index: number) => (
-              <RecipePreview key={{ index }} {...recipe} />
+              <RecipePreview
+                key={{ index }}
+                {...recipe}
+                canLike={me.uid === userID}
+              />
             ))
           )}
         </ScrollView>
       </Container>
-      <BottomButton icon="add" text="Nouvelle recette" onPress={() => {}} />
+      <BottomButton
+        icon="add"
+        text="Nouvelle recette"
+        onPress={() => {
+          linkTo('/create')
+        }}
+      />
     </>
   )
+}
+
+export default function RecipesScreen({ route }: any) {
+  return <RecipesForUser userID={route.params.userID} />
 }

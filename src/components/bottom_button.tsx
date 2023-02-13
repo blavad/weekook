@@ -1,7 +1,7 @@
-import { Button, useNormalize } from "@unboared/base-ui.all"
-import { View } from "react-native"
+import { Button, useNormalize } from '@unboared/base-ui.all'
+import { View } from 'react-native'
 
-export const BottomButton = ({ icon, text, onPress }: any) => {
+export const BottomButton = ({ icon, text, color, onPress }: any) => {
   const { normalize } = useNormalize()
   return (
     <View
@@ -11,7 +11,13 @@ export const BottomButton = ({ icon, text, onPress }: any) => {
         bottom: normalize(10),
       }}
     >
-      <Button icon={icon} size={15} text={text} onPress={onPress} />
+      <Button
+        style={color ? { backgroundColor: color } : {}}
+        icon={icon}
+        size={15}
+        text={text}
+        onPress={onPress}
+      />
     </View>
   )
 }

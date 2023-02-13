@@ -7,21 +7,25 @@ import {
 } from '@unboared/base-ui.all'
 import { View } from 'react-native'
 
-export const Tag = ({ text, color, size = 10 }: any) => {
+export const Tag = ({ text, color, textColor, size = 7, style }: any) => {
   const { normalize } = useNormalize()
+
+  const customStyle = [
+    {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: color,
+      borderRadius: normalize(size),
+      paddingHorizontal: normalize(size / 2),
+    },
+    style,
+  ]
+
   return (
     <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: color,
-        borderRadius: normalize(size),
-        paddingHorizontal: normalize(size / 2),
-      }}
+      style={customStyle}
     >
-      <Heading
-        style={{ color:'white',fontFamily: 'GoodDogRegular', fontSize: normalize(size) }}
-      >
+      <Heading type="h2" style={{ color: textColor || 'white', fontSize: normalize(size) }}>
         {text}
       </Heading>
     </View>
