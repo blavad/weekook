@@ -19,7 +19,7 @@ import {
   useRecipe,
   usersAPI,
 } from '../services/users_api/users_api'
-import { TextInput } from '@unboared/base-ui.all'
+import { TextInput, Theme, useTheme } from '@unboared/base-ui.all'
 import CreateRecipeImage from '../assets/img/createRecipe.jpg'
 import { useLinkTo } from '@react-navigation/native'
 
@@ -44,7 +44,7 @@ const initRecipe = (me, recipe) => {
       },
       activeTags: [],
       ingredients: [{ quantity: '', name: '' }],
-      instructions: [""],
+      instructions: [''],
     }
   }
 }
@@ -52,6 +52,7 @@ const initRecipe = (me, recipe) => {
 export function ModifyRecipeFor({ recipe }: any) {
   const linkTo = useLinkTo()
 
+  const theme = useTheme() as Theme
   const { normalize } = useNormalize()
   const { user: me } = useActiveUser()
   const isMyRecipe = recipe && me.uid === recipe.author.uid
@@ -161,7 +162,9 @@ export function ModifyRecipeFor({ recipe }: any) {
                   <Tag
                     style={{ margin: normalize(SPACE.tiny) }}
                     text={`${tag.icon} ${tag.name}`}
-                    textColor={activeTags?.includes(tag) ? 'white' : 'black'}
+                    textColor={
+                      activeTags?.includes(tag) ? 'white' : theme.textColor
+                    }
                     color={
                       activeTags?.includes(tag) ? tag.color : 'rgba(0,0,0,0)'
                     }

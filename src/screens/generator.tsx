@@ -5,6 +5,7 @@ import {
   TextInput,
   useNormalize,
   useTheme,
+  Theme,
 } from '@unboared/base-ui.all'
 
 import { useEffect, useState } from 'react'
@@ -17,6 +18,7 @@ import { useAllTags } from '../services/users_api/users_api'
 
 export default function GeneratorScreen({ navigation }: any) {
   const { normalize } = useNormalize()
+  const theme = useTheme() as Theme
 
   const [numRecipes, setNumRecipes] = useState('4')
 
@@ -107,7 +109,9 @@ export default function GeneratorScreen({ navigation }: any) {
                 <Tag
                   style={{ margin: normalize(SPACE.tiny) }}
                   text={`${tag.icon} ${tag.name}`}
-                  textColor={activeTags?.includes(tag) ? 'white' : 'black'}
+                  textColor={
+                    activeTags?.includes(tag) ? 'white' : theme.textColor
+                  }
                   color={
                     activeTags?.includes(tag) ? tag.color : 'rgba(0,0,0,0)'
                   }
