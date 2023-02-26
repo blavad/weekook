@@ -1,5 +1,7 @@
 import { db as firebaseDB } from './config'
 import {
+  addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -61,16 +63,6 @@ export const usersAPI = {
       let recipeItem = await getDoc(recipeRef)
       let rec = recipeItem.data() as any
       rec.id = recipeID
-      if (rec.ingredients.length !== 0) {
-        for (let i = 0; i < rec.ingredients.length; i++) {
-          const ingItem = await getDoc(rec.ingredients[i].ref)
-          delete rec.ingredients[i].ref
-          rec.ingredients[i] = {
-            ...rec.ingredients[i],
-            ...(ingItem.data() as any),
-          }
-        }
-      }
       if (rec.tags) {
         for (let i = 0; i < rec.tags.length; i++) {
           rec.tags[i] = await usersAPI.getTag(rec.tags[i])
@@ -97,16 +89,6 @@ export const usersAPI = {
         let recipeItem = await getDoc(recipeRef)
         let rec = recipeItem.data() as any
         rec.id = recipeRef.id
-        if (rec.ingredients.length !== 0) {
-          for (let i = 0; i < rec.ingredients.length; i++) {
-            const ingItem = await getDoc(rec.ingredients[i].ref)
-            delete rec.ingredients[i].ref
-            rec.ingredients[i] = {
-              ...rec.ingredients[i],
-              ...(ingItem.data() as any),
-            }
-          }
-        }
         if (rec.tags) {
           for (let i = 0; i < rec.tags.length; i++) {
             rec.tags[i] = await usersAPI.getTag(rec.tags[i])
@@ -139,19 +121,15 @@ export const usersAPI = {
     return promiseUser
   },
 
-  // createRecipe: (recipe:any) => {
-  //   const docRef = doc(firebaseDB, 'recipes')
-  //   const promiseUser = new Promise((resolve, reject) => {
-  //     setDoc(docRef, recipe)
-  //       .then((item: any) => {
-  //         resolve(item)
-  //       })
-  //       .catch((error: any) => {
-  //         reject(error)
-  //       })
-  //   })
-  //   return promiseUser
-  // },
+  createRecipe: async (recipe: any) => {
+    const authorRef = doc(firebaseDB, 'utilisateurs', recipe.author)
+    recipe.author = authorRef
+    const docRef = await addDoc(collection(firebaseDB, 'recipes'), recipe)
+    const docID = docRef.id
+    updateDoc(authorRef, {
+      recipes: arrayUnion(doc(firebaseDB, 'recipes/' + docID)),
+    })
+  },
 
   addToFavorites: async (
     uid: string,
@@ -259,7 +237,7 @@ export const useRecipes = (id: string) => {
     loadUser(id)
   }, [id])
 
-  return recipes || []
+  return recipes || undefined
 }
 
 export const useAllTags = () => {

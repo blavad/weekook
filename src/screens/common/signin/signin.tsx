@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
-import { useTheme } from 'rn-css'
 import { useLinkTo } from "~/navigation/router";
 
-import { useNormalize, useTranslate, accent_color, Text, Theme, unboaredTheme } from "@unboared/base-ui.all";
+import { useNormalize, useTranslate, accent_color, Text, useTheme } from "@unboared/base-ui.all";
 import { useScreenInfos } from "@unboared/utils.orientation";
 
 import { useMargin } from "./hooks/useMargin";
@@ -33,7 +32,6 @@ export const SignIn = () => {
       justifyContent: "center"
     } as ViewStyle,
     content: {
-      width: normalize(250),
       justifyContent: "center"
     } as ViewStyle
   }
@@ -99,7 +97,6 @@ const CreateAccountLink = () => {
 
 const Separator = () => {
   const theme = useTheme();
-  const currentTheme = (theme as Theme) || unboaredTheme.default;
   const { normalize } = useNormalize()
   const { smallMargin } = useMargin()
 
@@ -109,7 +106,7 @@ const Separator = () => {
       tx="common.signin.or"
       style={{
         ...smallMargin,
-        fontSize: normalize(currentTheme.sizeH4),
+        fontSize: normalize(theme.sizeH4),
         alignSelf: "center",
         fontFamily: "OpenSansBold",
       }}

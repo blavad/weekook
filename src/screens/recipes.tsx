@@ -1,5 +1,3 @@
-import { View } from 'react-native'
-import { Button, Heading, useNormalize } from '@unboared/base-ui.all'
 import Container from '../components/container/main_container'
 import { BottomButton } from '../components/bottom_button'
 import { RecipePreview } from '../components/recipes/recipe_preview'
@@ -19,12 +17,12 @@ export function RecipesForUser({ userID }: { userID: string }) {
     <>
       <Container>
         <ScrollView style={{ flex: 1, alignSelf: 'stretch' }}>
-          {recipes.length === 0 ? (
+          {recipes === undefined ? (
             <ActivityIndicator />
           ) : (
             recipes.map((recipe: any, index: number) => (
               <RecipePreview
-                key={{ index }}
+                key={index}
                 {...recipe}
                 canLike={me.uid === userID}
               />

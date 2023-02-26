@@ -30,8 +30,9 @@ export const RecipePreview = ({
   images,
   canLike,
 }: any) => {
-  const linkTo = useLinkTo()
+  
   const theme = useTheme()
+  const linkTo = useLinkTo()
   const { normalize } = useNormalize()
 
   const { user: me } = useActiveUser()
@@ -65,10 +66,9 @@ export const RecipePreview = ({
             onPress={() => {
               if (isInMyFavoriteList) {
                 usersAPI.removeToFavorites(me.uid, me.favorites, id)
-              }else {
+              } else {
                 usersAPI.addToFavorites(me.uid, me.favorites, id)
               }
-
             }}
             active={isInMyFavoriteList}
           />

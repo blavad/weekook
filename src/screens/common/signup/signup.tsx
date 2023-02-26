@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 
-import { useNormalize, Text } from '@unboared/base-ui.all'
+import { useNormalize, Text, useScale } from '@unboared/base-ui.all'
 
 import { useMargin, GoogleSignIn } from '../signin'
+import { useScreenInfos } from '@unboared/utils.orientation'
 import { EmailPasswordSignUp } from './components/email_password'
 import { useAuth } from '../../../services/auth'
 import { ActivityIndicator } from '../../../components/loaders'
@@ -26,8 +27,8 @@ export const SignUp = () => {
       justifyContent: 'center',
     } as ViewStyle,
     content: {
-      width: normalize(250),
       justifyContent: 'center',
+      width:'80%'
     } as ViewStyle,
   }
 

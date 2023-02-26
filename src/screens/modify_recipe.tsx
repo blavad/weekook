@@ -14,9 +14,14 @@ import { ActivityIndicator } from '../components/loaders'
 import { Tag } from '../components/tag'
 import { SPACE } from '../const'
 import { useActiveUser } from '../services/user'
-import { useAllTags, useRecipe } from '../services/users_api/users_api'
+import {
+  useAllTags,
+  useRecipe,
+  usersAPI,
+} from '../services/users_api/users_api'
 import { TextInput } from '@unboared/base-ui.all'
 import CreateRecipeImage from '../assets/img/createRecipe.jpg'
+import { useLinkTo } from '@react-navigation/native'
 
 const initRecipe = (me, recipe) => {
   if (recipe) {
@@ -39,12 +44,14 @@ const initRecipe = (me, recipe) => {
       },
       activeTags: [],
       ingredients: [{ quantity: '', name: '' }],
-      instructions: [''],
+      instructions: [""],
     }
   }
 }
 
 export function ModifyRecipeFor({ recipe }: any) {
+  const linkTo = useLinkTo()
+
   const { normalize } = useNormalize()
   const { user: me } = useActiveUser()
   const isMyRecipe = recipe && me.uid === recipe.author.uid
@@ -59,7 +66,23 @@ export function ModifyRecipeFor({ recipe }: any) {
   const [activeTags, setActiveTags] = useState(currentRecipe.activeTags)
 
   const saveRecipe = () => {
-    
+    usersAPI
+      .createRecipe({
+        name: name,
+        images: {
+          urls: [imgURL],
+        },
+        tags: activeTags?.map((tag) => tag.name),
+        author: me.uid,
+        ingredients: ingredients,
+        instructions: instructions,
+      })
+      .then(() => {
+        linkTo('/home')
+      })
+      .catch(() => {
+        console.error('Error while save recipe.')
+      })
   }
 
   if (recipe && !isMyRecipe) {
@@ -122,8 +145,8 @@ export function ModifyRecipeFor({ recipe }: any) {
             {tags.map((tag: any, index: number) => {
               return (
                 <TouchableOpacity
-                    key={index}
-                    onPress={() => {
+                  key={index}
+                  onPress={() => {
                     setActiveTags((state) => {
                       let newState = [...state]
                       if (newState.includes(tag)) {
@@ -136,9 +159,9 @@ export function ModifyRecipeFor({ recipe }: any) {
                   }}
                 >
                   <Tag
-                    style={{ marginHorizontal: normalize(SPACE.tiny) }}
+                    style={{ margin: normalize(SPACE.tiny) }}
                     text={`${tag.icon} ${tag.name}`}
-                    textColor={activeTags?.includes(tag) ? 'white' : "black"}
+                    textColor={activeTags?.includes(tag) ? 'white' : 'black'}
                     color={
                       activeTags?.includes(tag) ? tag.color : 'rgba(0,0,0,0)'
                     }
@@ -171,7 +194,11 @@ export function ModifyRecipeFor({ recipe }: any) {
         }}
       ></ImageBackground>
       <BackButton />
-      <BottomButton text="Sauvegarder ma recette" icon="io-save" onPress={saveRecipe}/>
+      <BottomButton
+        text="Sauvegarder ma recette"
+        icon="io-save"
+        onPress={saveRecipe}
+      />
     </SecondaryContainer>
   )
 }

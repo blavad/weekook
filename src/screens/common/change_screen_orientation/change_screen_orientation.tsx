@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { Icon, PortraitMobileLayout, Heading } from '@unboared/base-ui.all';
+import { Icon, PortraitMobileLayout,useTheme, Heading } from '@unboared/base-ui.all';
 import { Logo } from '@unboared/design.brand.logo';
-import { useTheme } from '@unboared/utils.theme';
 
 export type ChangeScreenOrientationPageProps = {
   /**

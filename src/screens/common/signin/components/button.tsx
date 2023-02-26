@@ -1,7 +1,6 @@
 import React from "react";
-import { useTheme } from 'rn-css'
 
-import { Button, useNormalize, Theme, unboaredTheme, transparency, Text, space, ButtonProps } from '@unboared/base-ui.all'
+import { Button, useNormalize, Theme, unboaredTheme, transparency, Text, space, useTheme, ButtonProps } from '@unboared/base-ui.all'
 import { Image, View } from "react-native";
 
 
@@ -11,14 +10,13 @@ import { Image, View } from "react-native";
 export const ExtraSignInButton = (props: any) => {
     const { normalize } = useNormalize()
     const theme = useTheme();
-    const currentTheme = (theme as Theme) || unboaredTheme.default;
 
 
     return <Button
         {...props}
         preset="secondary"
-        style={{ borderWidth: normalize(2), borderColor: transparency(currentTheme.mode, 0.2) }}
-        textStyle={{ color: currentTheme.currentPalette.c200 }}
+        style={{ borderWidth: normalize(2), borderColor: transparency(theme.mode, 0.2) }}
+        textStyle={{ color: theme.currentPalette.c200 }}
     />
 }
 

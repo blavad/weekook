@@ -21,6 +21,7 @@ import { weekookDarkTheme, weekookLightTheme } from './theme/theme'
 import { useActiveUser, useActiveUserManager } from './services/user'
 import { UserSelectionAndLaunch } from './screens/user_selection/user_selection'
 import ModifyRecipesScreen from './screens/modify_recipe'
+import SettingsScreen from './screens/settings'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -49,7 +50,8 @@ const AppTab = () => {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Home">{() => <HomeStack />}</Tab.Screen>
-      <Tab.Screen name="Generator" component={GeneratorScreen} />
+      <Tab.Screen name="Generator">{() => <GeneratorScreen />}</Tab.Screen>
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   )
 }
@@ -73,6 +75,8 @@ const MainStack = () => {
 const isAuthentified = (auth: any) => auth !== undefined && auth !== null
 
 const AppStack = () => {
+
+
   // Gets the current auth
   const auth = useAuth((state) => state.auth)
   // Update the user data according to the authentified user

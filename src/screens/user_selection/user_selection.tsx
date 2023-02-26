@@ -1,4 +1,4 @@
-import { Button, normalize, TextInput } from '@unboared/base-ui.all'
+import { Button, TextInput, useNormalize } from '@unboared/base-ui.all'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { WeekookAvatar } from '../../components/avatar'
@@ -8,6 +8,7 @@ import { useAuth } from '../../services/auth'
 import { useActiveUser } from '../../services/user'
 
 export const UserSelectionAndLaunch = () => {
+  const { normalize } = useNormalize()
   const auth = useAuth((state) => state.auth)
   const initialLoading = useAuth((state) => state.initialLoading)
   const { createUser, user, loading, errorMessage } = useActiveUser()
@@ -18,6 +19,8 @@ export const UserSelectionAndLaunch = () => {
 
   const [localUsername, setLocalUsername] = useState('')
   const localAvatar = `https://api.dicebear.com/5.x/lorelei-neutral/png?seed=${localUsername}`
+
+  console.log(auth)
 
   if (initialLoading) {
     return (
@@ -62,6 +65,7 @@ export const UserSelectionAndLaunch = () => {
               <View
                 style={{
                   flex: 1,
+                  width:'100%', 
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
@@ -70,13 +74,13 @@ export const UserSelectionAndLaunch = () => {
                 <TextInput
                   label="Mon pseudo"
                   containerStyle={{ marginTop: normalize(40) }}
-                  style={{ width: normalize(250), borderRadius: normalize(20) }}
+                  style={{ borderRadius: normalize(20) }}
                   minLength={3}
                   maxLength={12}
                   text={localUsername}
                   placeholder={'girolina ?'}
                   onChangeText={setLocalUsername}
-                //   helperText={errorMessage}
+                  //   helperText={errorMessage}
                 />
                 <Button
                   style={{ margin: 20 }}
