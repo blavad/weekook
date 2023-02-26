@@ -330,7 +330,7 @@ const InstructionFormElement = ({ index, instr, setInstructions }: any) => {
         key={index}
         containerStyle={{ flex: 2 }}
         style={{ minWidth: 0 }}
-        placeholder={`qté ingrédient ${index + 1}`}
+        placeholder={`instruction ${index + 1}`}
         text={instr}
         onChangeText={(text) => updateInstructions(index, text)}
       />

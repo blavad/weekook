@@ -4,7 +4,7 @@ export const base_color = {
     light: light.c900,
     light_secondary: '#CCD7DE',
     light_tertiary: '#ABADC6',
-    dark: dark.c900,
+    dark: "#1a1a18",//dark.c900,
     dark_secondary: '#1f1b30',
     dark_tertiary: '#424867',
 }
@@ -39,7 +39,7 @@ export const weekook_color = {
 const lightColorTheme = {
     mode: 'light',
     currentPalette: palette.white,
-    backgroundColor: color.light,
+    backgroundColor: weekook_color.light,
     titleColor: color.dark,
     textColor: color.dark,
     buttonColor: palette.green.c500,
@@ -53,7 +53,7 @@ const darkColorTheme = {
     /* COLORS */
     mode: 'dark',
     currentPalette: palette.black,
-    backgroundColor: color.dark,
+    backgroundColor: weekook_color.dark,
     titleColor: color.light,
     textColor: color.light,
     buttonColor: palette.green.c500,

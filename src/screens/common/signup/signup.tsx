@@ -41,8 +41,8 @@ export const SignUp = () => {
           ) : (
             <View style={styles.content}>
               <EmailPasswordSignUp />
-              <SignUpSeparator />
-              <GoogleSignIn />
+              {/* <SignUpSeparator />
+              <GoogleSignIn /> */}
               {/* <CreateAccount /> */}
             </View>
           )}

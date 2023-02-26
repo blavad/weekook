@@ -3,12 +3,13 @@ import * as Linking from 'expo-linking'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { ThemeProvider, useGamepadScale } from '@unboared/base-ui.all'
+import { ThemeProvider, useGamepadScale, useTheme } from '@unboared/base-ui.all'
 import MyHomeScreen from './screens/my_home'
 import RecipesScreen from './screens/recipes'
 import RecipeScreen from './screens/recipe'
 import CreateRecipeScreen from './screens/create_recipe'
 import GeneratorScreen from './screens/generator'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Appearance } from 'react-native'
 
@@ -44,14 +45,37 @@ const HomeStack = () => {
 }
 
 const AppTab = () => {
+  const theme = useTheme()
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.buttonColor,
+        tabBarStyle: { backgroundColor: theme.backgroundColor },
+      }}
     >
-      <Tab.Screen name="Home">{() => <HomeStack />}</Tab.Screen>
+      <Tab.Screen
+        name="Home"
+        options={{
+          tabBarLabel: 'Mes recettes',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+          ),
+        }}
+      >
+        {() => <HomeStack />}
+      </Tab.Screen>
       {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
-      <Tab.Screen name="Generator">{() => <GeneratorScreen />}</Tab.Screen>
+      <Tab.Screen name="Generator"
+       options={{
+        tabBarLabel: 'Générer ma semaine',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="widgets-outline" color={color} size={size} />
+        ),
+      }}
+      >{() => <GeneratorScreen />}</Tab.Screen>
     </Tab.Navigator>
   )
 }
@@ -75,8 +99,6 @@ const MainStack = () => {
 const isAuthentified = (auth: any) => auth !== undefined && auth !== null
 
 const AppStack = () => {
-
-
   // Gets the current auth
   const auth = useAuth((state) => state.auth)
   // Update the user data according to the authentified user
