@@ -50,8 +50,8 @@ const AppTab = () => {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen name="Home">{() => <HomeStack />}</Tab.Screen>
+      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
       <Tab.Screen name="Generator">{() => <GeneratorScreen />}</Tab.Screen>
-      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   )
 }
