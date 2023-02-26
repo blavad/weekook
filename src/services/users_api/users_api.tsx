@@ -5,16 +5,56 @@ import {
   arrayUnion,
   collection,
   doc,
+  documentId,
+  FieldPath,
   getDoc,
   getDocs,
   onSnapshot,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import { useCallback, useEffect, useState } from 'react'
 import { User } from '../user'
 
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+
+    // And swap it with the current element.
+    ;[array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ]
+  }
+
+  return array
+}
+
 export const usersAPI = {
+  /* MANAGE USERS */
+
+  createUser: (user: any) => {
+    const docRef = doc(firebaseDB, 'utilisateurs', user.uid)
+    const promiseUser = new Promise((resolve, reject) => {
+      setDoc(docRef, user)
+        .then((item: any) => {
+          resolve(item)
+        })
+        .catch((error: any) => {
+          reject(error)
+        })
+    })
+    return promiseUser
+  },
+
   /**
    * Get the user from its id.
    *
@@ -36,6 +76,8 @@ export const usersAPI = {
     return promiseUser
   },
 
+  /* MANAGE TAGS */
+
   getAllTags: async () => {
     let tagList: any[] = []
     const querySnapshot = await getDocs(collection(firebaseDB, 'tags'))
@@ -55,6 +97,18 @@ export const usersAPI = {
     } catch (error) {
       console.error(error)
     }
+  },
+
+  /* MANAGE RECIPES */
+
+  createRecipe: async (recipe: any) => {
+    const authorRef = doc(firebaseDB, 'utilisateurs', recipe.author)
+    recipe.author = authorRef
+    const docRef = await addDoc(collection(firebaseDB, 'recipes'), recipe)
+    const docID = docRef.id
+    updateDoc(authorRef, {
+      recipes: arrayUnion(doc(firebaseDB, 'recipes/' + docID)),
+    })
   },
 
   getRecipe: async (recipeID: string) => {
@@ -78,6 +132,28 @@ export const usersAPI = {
       console.error(error)
     }
     return myRecipe
+  },
+
+  getRecipesFromRefs: async (refs: any) => {
+    console.log(refs)
+    let myRecipes: any = []
+    for (let recipeRef of refs) {
+      let recipeItem = await getDoc(recipeRef)
+      let rec = recipeItem.data() as any
+      rec.id = recipeRef.id
+      if (rec.tags) {
+        for (let i = 0; i < rec.tags.length; i++) {
+          rec.tags[i] = await usersAPI.getTag(rec.tags[i])
+        }
+      }
+      if (rec.author) {
+        const authItem = await getDoc(rec.author)
+        rec.author = authItem.data() as any
+      }
+
+      myRecipes.push(rec)
+    }
+    return myRecipes
   },
 
   getRecipes: async (uid: string) => {
@@ -108,30 +184,6 @@ export const usersAPI = {
     return myRecipes
   },
 
-  createUser: (user: any) => {
-    const docRef = doc(firebaseDB, 'utilisateurs', user.uid)
-    const promiseUser = new Promise((resolve, reject) => {
-      setDoc(docRef, user)
-        .then((item: any) => {
-          resolve(item)
-        })
-        .catch((error: any) => {
-          reject(error)
-        })
-    })
-    return promiseUser
-  },
-
-  createRecipe: async (recipe: any) => {
-    const authorRef = doc(firebaseDB, 'utilisateurs', recipe.author)
-    recipe.author = authorRef
-    const docRef = await addDoc(collection(firebaseDB, 'recipes'), recipe)
-    const docID = docRef.id
-    updateDoc(authorRef, {
-      recipes: arrayUnion(doc(firebaseDB, 'recipes/' + docID)),
-    })
-  },
-
   addToFavorites: async (
     uid: string,
     currentFavorites: any,
@@ -158,12 +210,13 @@ export const usersAPI = {
     const docRef = doc(firebaseDB, 'utilisateurs', uid)
     updateDoc(docRef, {
       recipes: arrayUnion(doc(firebaseDB, 'recipes/' + recipeID)),
-    }).then(() => {
-      console.log('Add with success')
     })
-    .catch(() => {
-      console.error('Error add to list')
-    })
+      .then(() => {
+        console.log('Add with success')
+      })
+      .catch(() => {
+        console.error('Error add to list')
+      })
   },
 
   removeFromList: async (uid: string, recipeID: string) => {
@@ -205,6 +258,119 @@ export const usersAPI = {
         })
     })
     return promiseUser
+  },
+
+  /* MANAGE KOOKLISTS */
+
+  createList: async (
+    uid: string,
+    listType: string,
+    cooklistName: string,
+    recipes: Array<string>,
+  ) => {
+    const authorRef = doc(firebaseDB, 'utilisateurs', uid)
+    let cooklist = {
+      name: cooklistName,
+      author: authorRef,
+      type: listType,
+      recipes: recipes,
+    }
+    const docRef = await addDoc(collection(firebaseDB, 'cooklists'), cooklist)
+    const docID = docRef.id
+    updateDoc(authorRef, {
+      cooklists: arrayUnion(doc(firebaseDB, 'cooklists/' + docID)),
+    })
+  },
+  createStdLists: async (uid: string, recipes: Array<string>) => {
+    usersAPI.createList(uid, 'stdlist', 'recipes', recipes)
+    usersAPI.createList(uid, 'stdlist', 'favorites', recipes)
+    usersAPI.createList(uid, 'stdlist', 'myRecipes', recipes)
+    usersAPI.createList(uid, 'stdlist', 'history', recipes)
+  },
+  createCooklist: async (
+    uid: string,
+    weekListName: string,
+    recipes: Array<string>,
+  ) => {
+    usersAPI.createList(uid, 'cooklist', weekListName, recipes)
+  },
+  createWeekookList: async (
+    uid: string,
+    weekListName: string,
+    recipes: Array<string>,
+  ) => {
+    usersAPI.createList(uid, 'weekooklist', weekListName, recipes)
+  },
+
+  addToCooklist: async (cooklistID: string, recipeID: string) => {
+    const docRef = doc(firebaseDB, 'cooklists', cooklistID)
+    updateDoc(docRef, {
+      recipes: arrayUnion(doc(firebaseDB, 'recipes/' + recipeID)),
+    })
+      .then(() => {
+        console.log('Add with success')
+      })
+      .catch(() => {
+        console.error('Error add to list')
+      })
+  },
+
+  removeFromCooklist: async (cooklistID: string, recipeID: string) => {
+    const docRef = doc(firebaseDB, 'cooklists', cooklistID)
+    updateDoc(docRef, {
+      recipes: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
+    })
+      .then(() => {
+        console.log('Remove with success')
+      })
+      .catch(() => {
+        console.error('Error remove from list')
+      })
+  },
+
+  generateWeekookList: async (
+    uid: string,
+    inFavorites: boolean,
+    tags: Array<string>,
+    numRecipes: number,
+  ) => {
+    const userRef = doc(firebaseDB, 'utilisateurs', uid)
+    let userItem = await getDoc(userRef)
+    let userData = userItem.data() as any
+    let fulllist = inFavorites ? userData.favorites : userData.recipes
+
+    let weekooklist: any[] = []
+
+    if (!numRecipes) {
+      throw `Veuillez spécifier un nombre de recettes valide.`
+    }
+
+    if (fulllist.length !== 0) {
+      const q = query(
+        collection(firebaseDB, 'recipes'),
+        where(documentId(), 'in', fulllist),
+      )
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doc) => {
+        let docData = doc.data()
+        const inSelectedTag = (element) => tags.includes(element)
+        if (docData.tags.some(inSelectedTag)) {
+          console.log(doc.id, ' => ', doc.data())
+          weekooklist.push(doc.ref)
+        }
+      })
+    }
+    if (weekooklist.length < numRecipes) {
+      if (weekooklist.length == 0) {
+        throw `Aucune recette ne respecte les contraintes.`
+      }
+      if (weekooklist.length == 1) {
+        throw `Une seule recette respecte les contraintes.`
+      }
+      throw `Seulement ${weekooklist.length} recettes respectent les contraintes.`
+    }
+    shuffle(weekooklist)
+    return weekooklist.slice(0, numRecipes)
   },
 }
 

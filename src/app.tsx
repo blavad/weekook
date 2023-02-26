@@ -23,6 +23,7 @@ import { useActiveUser, useActiveUserManager } from './services/user'
 import { UserSelectionAndLaunch } from './screens/user_selection/user_selection'
 import ModifyRecipesScreen from './screens/modify_recipe'
 import SettingsScreen from './screens/settings'
+import WeeksScreen from './screens/my_weeks'
 
 SplashScreen.preventAutoHideAsync()
 
@@ -67,15 +68,23 @@ const AppTab = () => {
       >
         {() => <HomeStack />}
       </Tab.Screen>
-      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+      <Tab.Screen name="Weeks"
+      options={{
+        tabBarLabel: 'Mes semaines',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="calendar" color={color} size={size} />
+          ),
+        }}
+        >{() => <WeeksScreen />}</Tab.Screen>
       <Tab.Screen name="Generator"
        options={{
-        tabBarLabel: 'Générer ma semaine',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="widgets-outline" color={color} size={size} />
-        ),
-      }}
-      >{() => <GeneratorScreen />}</Tab.Screen>
+         tabBarLabel: 'Générer ma semaine',
+         tabBarIcon: ({ color, size }) => (
+           <MaterialCommunityIcons name="widgets-outline" color={color} size={size} />
+           ),
+          }}
+          >{() => <GeneratorScreen />}</Tab.Screen>
+          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
     </Tab.Navigator>
   )
 }
@@ -141,6 +150,7 @@ const config = {
           },
         },
         Generator: '/generator',
+        Weeks: '/weeks',
       },
       // Weeks: '/weeks',
       // Week: '/week/:weekID',
