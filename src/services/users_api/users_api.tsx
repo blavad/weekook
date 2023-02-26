@@ -221,6 +221,24 @@ export const useRecipe = (id: string) => {
 
 export const useRecipes = (id: string) => {
   const [recipes, setRecipes] = useState<any>(undefined)
+
+  useEffect(() => {
+    if (id) {
+      const docRef = doc(firebaseDB, 'utilisateurs', id)
+      const unsub = onSnapshot(docRef, (doc) => {
+        try {
+          ;(async () => {
+            const rec = await usersAPI.getRecipes(id)
+            setRecipes(rec)
+          })()
+        } catch (error) {
+          console.log(error)
+        }
+      })
+      return unsub
+    }
+  }, [id])
+
   useEffect(() => {
     const loadUser = (id: string) => {
       if (id) {
