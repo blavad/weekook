@@ -1,6 +1,7 @@
 import { db as firebaseDB } from './config'
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -151,6 +152,36 @@ export const usersAPI = {
         })
     })
     return promiseUser
+  },
+
+  addToList: async (uid: string, recipeID: string) => {
+    const docRef = doc(firebaseDB, 'utilisateurs', uid)
+    updateDoc(docRef, {
+      recipes: arrayUnion(doc(firebaseDB, 'recipes/' + recipeID)),
+    }).then(() => {
+      console.log('Add with success')
+    })
+    .catch(() => {
+      console.error('Error add to list')
+    })
+  },
+
+  removeFromList: async (uid: string, recipeID: string) => {
+    const docRef = doc(firebaseDB, 'utilisateurs', uid)
+    updateDoc(docRef, {
+      favorites: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
+    })
+      .then(() => {
+        updateDoc(docRef, {
+          recipes: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
+        })
+      })
+      .then(() => {
+        console.log('Remove with success')
+      })
+      .catch(() => {
+        console.error('Error remove from list')
+      })
   },
 
   removeToFavorites: async (

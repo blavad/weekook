@@ -1,4 +1,10 @@
-import { color, Heading, palette, Text, useNormalize } from '@unboared/base-ui.all'
+import {
+  color,
+  Heading,
+  palette,
+  Text,
+  useNormalize,
+} from '@unboared/base-ui.all'
 import { ImageBackground, ScrollView, View } from 'react-native'
 import { WeekookUserIcon } from '../components/avatar'
 import { BottomButton } from '../components/bottom_button'
@@ -8,7 +14,7 @@ import { ActivityIndicator } from '../components/loaders'
 import { Tag } from '../components/tag'
 import { SPACE } from '../const'
 import { useActiveUser } from '../services/user'
-import { useRecipe } from '../services/users_api/users_api'
+import { useRecipe, usersAPI } from '../services/users_api/users_api'
 
 export default function RecipeScreen({ navigation, route }: any) {
   const { normalize } = useNormalize()
@@ -18,14 +24,35 @@ export default function RecipeScreen({ navigation, route }: any) {
   const isInMyList =
     recipe && me.recipes.filter((rec) => rec.id === recipe.id).length > 0
 
+  const addToMyList = () => {
+    usersAPI.addToList(me.uid, recipe.id)
+  }
+
+  const removeFromList = () => {
+    usersAPI.removeFromList(me.uid, recipe.id)
+  }
+
   let MyBottomButton
   if (!recipe || isMyRecipe) {
     MyBottomButton = <></>
   } else {
     if (isInMyList) {
-      MyBottomButton = <BottomButton color={palette.yellow.c500} text="Supprimer de ma liste" icon="delete" />
+      MyBottomButton = (
+        <BottomButton
+          color={palette.yellow.c500}
+          text="Supprimer de ma liste"
+          icon="delete"
+          onPress={removeFromList}
+        />
+      )
     } else {
-      MyBottomButton = <BottomButton text="Ajouter à ma liste" icon="add" />
+      MyBottomButton = (
+        <BottomButton
+          text="Ajouter à ma liste"
+          icon="add"
+          onPress={addToMyList}
+        />
+      )
     }
   }
 
