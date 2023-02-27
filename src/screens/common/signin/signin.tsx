@@ -33,8 +33,8 @@ export const SignIn = () => {
       justifyContent: 'center',
     } as ViewStyle,
     content: {
-      minWidth:"100%",
-      maxWidth:"100%",
+      minWidth:"80%",
+      maxWidth:"80%",
       justifyContent: 'center',
     } as ViewStyle,
   }

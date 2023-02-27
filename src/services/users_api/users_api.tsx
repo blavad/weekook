@@ -4,6 +4,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   documentId,
   FieldPath,
@@ -222,11 +223,11 @@ export const usersAPI = {
   removeFromList: async (uid: string, recipeID: string) => {
     const docRef = doc(firebaseDB, 'utilisateurs', uid)
     updateDoc(docRef, {
-      favorites: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
+      recipes: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
     })
       .then(() => {
         updateDoc(docRef, {
-          recipes: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
+          favorites: arrayRemove(doc(firebaseDB, 'recipes/' + recipeID)),
         })
       })
       .then(() => {
@@ -300,6 +301,45 @@ export const usersAPI = {
     recipes: Array<string>,
   ) => {
     usersAPI.createList(uid, 'weekooklist', weekListName, recipes)
+  },
+
+  removeList: async (authorID: string, listRef: any) => {
+    const docRef = doc(firebaseDB, 'utilisateurs', authorID)
+    deleteDoc(listRef)
+      .then(() => {
+        updateDoc(docRef, {
+          cooklists: arrayRemove(listRef),
+        })
+      })
+      .then(() => {
+        console.log('Remove with success')
+      })
+      .catch(() => {
+        console.error('Error remove from list')
+      })
+  },
+
+  getLists: async (listsRef: Array<any>) => {
+    let myLists: any = []
+    for (let listRef of listsRef) {
+      let listItem = await getDoc(listRef)
+      let listData = listItem.data() as any
+
+      myLists.push(listData)
+    }
+    return myLists
+  },
+
+  getCookLists: async (uid: string) => {
+    let myCooklists: any = []
+    const docRef = doc(firebaseDB, 'utilisateurs', uid)
+    try {
+      let userItem = await getDoc(docRef)
+      myCooklists = (userItem.data() as any).cooklists
+    } catch (error) {
+      console.error(error)
+    }
+    return myCooklists
   },
 
   addToCooklist: async (cooklistID: string, recipeID: string) => {
@@ -442,6 +482,45 @@ export const useRecipes = (id: string) => {
         try {
           ;(async () => {
             const rec = await usersAPI.getRecipes(id)
+            setRecipes(rec)
+          })()
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+    loadUser(id)
+  }, [id])
+
+  return recipes || undefined
+}
+
+export const useCooklists = (id: string) => {
+  const [recipes, setRecipes] = useState<any>(undefined)
+
+  useEffect(() => {
+    if (id) {
+      const docRef = doc(firebaseDB, 'utilisateurs', id)
+      const unsub = onSnapshot(docRef, (doc) => {
+        try {
+          ;(async () => {
+            const rec = await usersAPI.getCookLists(id)
+            setRecipes(rec)
+          })()
+        } catch (error) {
+          console.log(error)
+        }
+      })
+      return unsub
+    }
+  }, [id])
+
+  useEffect(() => {
+    const loadUser = (id: string) => {
+      if (id) {
+        try {
+          ;(async () => {
+            const rec = await usersAPI.getCookLists(id)
             setRecipes(rec)
           })()
         } catch (error) {

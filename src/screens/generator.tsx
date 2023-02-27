@@ -12,30 +12,45 @@ import {
 } from '@unboared/base-ui.all'
 
 import { useEffect, useState } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import {
+  ImageBackground,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { BottomButton } from '../components/bottom_button'
+import { BackButton } from '../components/buttons/back_button'
 import Container from '../components/container/main_container'
+import SecondaryContainer from '../components/container/secondary_container'
 import { ActivityIndicator } from '../components/loaders'
 import { RecipePreview } from '../components/recipes/recipe_preview'
 import { Tag } from '../components/tag'
 import { SPACE } from '../const'
 import { useActiveUser } from '../services/user'
 import { useAllTags, usersAPI } from '../services/users_api/users_api'
+import CreateRecipeImage from '../assets/img/header.jpg'
 
 export default function GeneratorScreen({ navigation }: any) {
   const [weekookList, setWeekookList] = useState()
 
   if (weekookList) {
-    return <ShowWeekookList weekookList={weekookList} />
+    return (
+      <ShowWeekookList
+        weekookList={weekookList}
+        onCancel={() => setWeekookList(undefined)}
+      />
+    )
   }
   return <GeneratorConfigScreen onGenerated={setWeekookList} />
 }
 
-export function ShowWeekookList({ weekookList }: any) {
+export function ShowWeekookList({ weekookList, onCancel }: any) {
   const { normalize } = useNormalize()
   const linkTo = useLinkTo()
   const { user } = useActiveUser()
   const [name, setName] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const [recipes, setRecipes] = useState<any>(undefined)
 
@@ -52,16 +67,20 @@ export function ShowWeekookList({ weekookList }: any) {
 
   return (
     <>
-      <Container>
+      <SecondaryContainer>
         <View
           style={{
-            padding: normalize(SPACE.small), 
+            padding: normalize(SPACE.small),
+            marginTop: normalize(40),
             flexDirection: 'row',
             alignSelf: 'flex-start',
             alignItems: 'center',
-            marginVertical: normalize(SPACE.small),
           }}
         >
+          {loading && <ActivityIndicator />}
+          {errorMessage && (
+            <Text text={errorMessage} style={{ color: color.warning }} />
+          )}
           <Heading
             type="h3"
             text="Nommer ma semaine"
@@ -71,7 +90,6 @@ export function ShowWeekookList({ weekookList }: any) {
             text={name}
             onChangeText={setName}
             containerStyle={{ width: normalize(1) }}
-            keyboardType="numeric"
           />
         </View>
         <ScrollView style={{ flex: 1, alignSelf: 'stretch' }}>
@@ -83,15 +101,42 @@ export function ShowWeekookList({ weekookList }: any) {
             ))
           )}
         </ScrollView>
-      </Container>
-      <BottomButton
-        icon="io-save"
-        text="Sauvegarder ma semaine"
-        onPress={() => {
-          usersAPI.createWeekookList(user.uid, name, weekookList)
-          linkTo('/home')
-        }}
-      />
+        <ImageBackground
+          source={CreateRecipeImage}
+          style={{
+            width: '100%',
+            position: 'absolute',
+            top: 0,
+
+            height: normalize(40),
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Heading style={{color:"white"}} type='h2' text="Recette générée" />
+        </ImageBackground>
+        <BackButton onPress={onCancel} />
+        <BottomButton
+          icon="io-save"
+          text="Sauvegarder ma semaine"
+          onPress={() => {
+            setLoading(true)
+            usersAPI
+              .createWeekookList(user.uid, name, weekookList)
+              .then(() => {
+                onCancel()
+                setLoading(false)
+                linkTo('/home')
+              })
+              .catch(() => {
+                setErrorMessage(
+                  "Problème inconnu: la semaine n'a pas pu être enregistrée.",
+                )
+                setLoading(false)
+              })
+          }}
+        />
+      </SecondaryContainer>
     </>
   )
 }

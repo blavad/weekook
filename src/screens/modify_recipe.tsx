@@ -20,7 +20,7 @@ import {
   usersAPI,
 } from '../services/users_api/users_api'
 import { TextInput, Theme, useTheme } from '@unboared/base-ui.all'
-import CreateRecipeImage from '../assets/img/createRecipe.jpg'
+import CreateRecipeImage from '../assets/img/header.jpg'
 import { useLinkTo } from '@react-navigation/native'
 
 const initRecipe = (me, recipe) => {
@@ -195,7 +195,9 @@ export function ModifyRecipeFor({ recipe }: any) {
           alignItems: 'center',
           justifyContent: 'center',
         }}
-      ></ImageBackground>
+      >
+        <Heading style={{ color: 'white' }} type="h2" text="Créer ma recette" />
+      </ImageBackground>
       <BackButton />
       <BottomButton
         text="Sauvegarder ma recette"

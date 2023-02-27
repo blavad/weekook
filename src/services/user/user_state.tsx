@@ -5,6 +5,7 @@ export type User = {
   avatar: string
   recipes: Array<string>
   favorites: Array<string>
+  cooklists: Array<any>
 }
 
 /* The default user value */
@@ -14,6 +15,7 @@ export const initialUser = {
   avatar: '',
   recipes: [],
   favorites: [],
+  cooklists: [],
 }
 
 /* The authentification state type  */

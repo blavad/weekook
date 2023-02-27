@@ -20,8 +20,6 @@ export const UserSelectionAndLaunch = () => {
   const [localUsername, setLocalUsername] = useState('')
   const localAvatar = `https://api.dicebear.com/5.x/lorelei-neutral/png?seed=${localUsername}`
 
-  console.log(auth)
-
   if (initialLoading) {
     return (
       <View

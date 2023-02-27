@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View } from 'react-native'
 import { SPACE } from '../../const'
 
-export const BackButton = () => {
+export const BackButton = ({ onPress }: { onPress?: () => void }) => {
   const navigation = useNavigation()
   const { normalize } = useNormalize()
   return (
@@ -22,9 +22,12 @@ export const BackButton = () => {
           backgroundColor: transparency('dark', 0.3),
         }}
         // preset='secondary'
-        onPress={() => {
-          navigation.goBack()
-        }}
+        onPress={
+          onPress ||
+          (() => {
+            navigation.goBack()
+          })
+        }
       />
     </View>
   )

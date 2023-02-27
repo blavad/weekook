@@ -62,7 +62,7 @@ export const RecipePreview = ({
         <Heading type="h2">{name}</Heading>
         {canLike && (
           <FavoriteButton
-            size={15}
+            size={25}
             onPress={() => {
               if (isInMyFavoriteList) {
                 usersAPI.removeToFavorites(me.uid, me.favorites, id)
