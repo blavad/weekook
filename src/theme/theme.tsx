@@ -40,13 +40,13 @@ const lightColorTheme = {
     mode: 'light',
     currentPalette: palette.white,
     backgroundColor: weekook_color.light,
-    titleColor: color.dark,
-    textColor: color.dark,
+    titleColor: weekook_color.dark,
+    textColor: weekook_color.dark,
     buttonColor: palette.green.c500,
-    buttonTextColor: color.dark,
+    buttonTextColor: weekook_color.dark,
     secondaryButtonColor: transparency('light'),
-    secondaryButtonTextColor: color.dark,
-    color: color,
+    secondaryButtonTextColor: weekook_color.dark,
+    color: weekook_color,
 }
 
 const darkColorTheme = {
@@ -54,13 +54,13 @@ const darkColorTheme = {
     mode: 'dark',
     currentPalette: palette.black,
     backgroundColor: weekook_color.dark,
-    titleColor: color.light,
-    textColor: color.light,
+    titleColor: weekook_color.light,
+    textColor: weekook_color.light,
     buttonColor: palette.green.c500,
-    buttonTextColor: color.light,
+    buttonTextColor: weekook_color.light,
     secondaryButtonColor: transparency('dark'),
-    secondaryButtonTextColor: color.light,
-    color: color,
+    secondaryButtonTextColor: weekook_color.light,
+    color: weekook_color,
 }
 
 const unboaredDesignTheme = {

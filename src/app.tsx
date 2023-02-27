@@ -24,10 +24,12 @@ import { UserSelectionAndLaunch } from './screens/user_selection/user_selection'
 import ModifyRecipesScreen from './screens/modify_recipe'
 import SettingsScreen from './screens/settings'
 import WeeksScreen from './screens/my_weeks'
+import SignIn from './screens/common/signin/signin'
 
 SplashScreen.preventAutoHideAsync()
 
 const Stack = createStackNavigator()
+const StackForAuth = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const HomeStack = () => {
@@ -84,8 +86,20 @@ const AppTab = () => {
            ),
           }}
           >{() => <GeneratorScreen />}</Tab.Screen>
-          {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+          <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
+  )
+}
+
+const AuthStack = () => {
+  return (
+    <StackForAuth.Navigator
+      initialRouteName="SignUp"
+      screenOptions={{ headerShown: false }}
+    >
+      <StackForAuth.Screen name="SignUp"  component={SignUp} />
+      <StackForAuth.Screen name="SignIn" component={SignIn} />
+    </StackForAuth.Navigator>
   )
 }
 
@@ -116,7 +130,7 @@ const AppStack = () => {
   // Check if initial loading
   const initialLoading = useAuth((state) => state.initialLoading)
 
-  return !isAuthentified(auth) ? <SignUp /> : <MainStack />
+  return !isAuthentified(auth) ? <AuthStack /> : <MainStack />
 }
 
 // Configure paths to screens and gamepads
@@ -157,6 +171,8 @@ const config = {
       // WeekList: '/weeklist/:weekID',
     },
     Settings: '/settings',
+    SignUp: '/signup',
+    SignIn: '/login',
   },
 }
 

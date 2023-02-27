@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react'
 import { Pressable, View, ViewStyle } from 'react-native'
 
-import { useNormalize, Text, useScale } from '@unboared/base-ui.all'
+import {
+  useNormalize,
+  Text,
+  useScale,
+  useTranslate,
+  useTheme,
+} from '@unboared/base-ui.all'
 
 import { useMargin, GoogleSignIn } from '../signin'
-import { useScreenInfos } from '@unboared/utils.orientation'
 import { EmailPasswordSignUp } from './components/email_password'
 import { useAuth } from '../../../services/auth'
 import { ActivityIndicator } from '../../../components/loaders'
 import Container from '../../../components/container/main_container'
+import { useLinkTo } from '@react-navigation/native'
 
 /**
  * Sign in page.
  */
 export const SignUp = () => {
-  const { normalize } = useNormalize()
   const loading = useAuth((state) => state.loading)
 
   const styles = {
@@ -27,8 +32,9 @@ export const SignUp = () => {
       justifyContent: 'center',
     } as ViewStyle,
     content: {
+      minWidth:"80%",
+      maxWidth:"80%",
       justifyContent: 'center',
-      width:'80%'
     } as ViewStyle,
   }
 
@@ -43,7 +49,7 @@ export const SignUp = () => {
               <EmailPasswordSignUp />
               <SignUpSeparator />
               <GoogleSignIn />
-              {/* <CreateAccount /> */}
+              <CreateAccount />
             </View>
           )}
         </View>
@@ -52,31 +58,44 @@ export const SignUp = () => {
   )
 }
 
-// const CreateAccount = () => {
-//   const { translate } = useTranslate()
-//   const { largeMargin } = useMargin()
+const CreateAccount = () => {
+  const { translate } = useTranslate()
+  const { largeMargin } = useMargin()
 
-//   const linkTo = useLinkTo()
-//   const resetFields = useAuth(state => state.resetFields)
+  const theme = useTheme()
+  
+  const linkTo = useLinkTo()
+  const resetFields = useAuth((state) => state.resetFields)
 
-//   return (
-//     <Pressable onPress={() => {
-//       resetFields()
-//       linkTo('/login')
-//     }}>
-//       <Text style={{ ...largeMargin, fontFamily: "OpenSansBold", alignSelf: "center" }}>
-//         {translate("common.signup.alreadyAccount.message")} <Text style={{
-//           color: accent_color.important, fontFamily: "OpenSansBold"
-//         }} tx="common.signup.alreadyAccount.login"
-//         />
-//       </Text>
-//     </Pressable>
-//   )
-// }
+  return (
+    <Pressable
+      onPress={() => {
+        resetFields()
+        linkTo('/login')
+      }}
+    >
+      <Text
+        style={{
+          ...largeMargin,
+          fontFamily: 'OpenSansBold',
+          alignSelf: 'center',
+        }}
+      >
+        {translate('common.signup.alreadyAccount.message')}{' '}
+        <Text
+          style={{
+            color: theme.color.primary,
+            fontFamily: 'OpenSansBold',
+          }}
+          tx="common.signup.alreadyAccount.login"
+        />
+      </Text>
+    </Pressable>
+  )
+}
 
 const SignUpSeparator = () => {
-  // const theme = useTheme();
-  // const currentTheme = (theme as Theme) || unboaredTheme.default;
+  const theme = useTheme()
   const { normalize } = useNormalize()
   const { smallMargin } = useMargin()
 
@@ -86,7 +105,7 @@ const SignUpSeparator = () => {
       tx="common.signin.or"
       style={{
         ...smallMargin,
-        fontSize: normalize(15),
+        fontSize: normalize(theme.sizeH4),
         alignSelf: 'center',
         fontFamily: 'OpenSansBold',
       }}
