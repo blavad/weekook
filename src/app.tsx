@@ -9,7 +9,7 @@ import RecipesScreen from './screens/recipes'
 import RecipeScreen from './screens/recipe'
 import CreateRecipeScreen from './screens/create_recipe'
 import GeneratorScreen from './screens/generator'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { Appearance } from 'react-native'
 
@@ -64,29 +64,52 @@ const AppTab = () => {
         options={{
           tabBarLabel: 'Mes recettes',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="food-fork-drink"
+              color={color}
+              size={size}
+            />
           ),
         }}
       >
         {() => <HomeStack />}
       </Tab.Screen>
-      <Tab.Screen name="Weeks"
-      options={{
-        tabBarLabel: 'Mes semaines',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="calendar" color={color} size={size} />
+      <Tab.Screen
+        name="Weeks"
+        options={{
+          tabBarLabel: 'Mes semaines',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="calendar" color={color} size={size} />
           ),
         }}
-        >{() => <WeeksScreen />}</Tab.Screen>
-      <Tab.Screen name="Generator"
-       options={{
-         tabBarLabel: 'Générer ma semaine',
-         tabBarIcon: ({ color, size }) => (
-           <MaterialCommunityIcons name="widgets-outline" color={color} size={size} />
-           ),
-          }}
-          >{() => <GeneratorScreen />}</Tab.Screen>
-          <Tab.Screen name="Settings" component={SettingsScreen} />
+      >
+        {() => <WeeksScreen />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Generator"
+        options={{
+          tabBarLabel: 'Générer ma semaine',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="widgets-outline"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      >
+        {() => <GeneratorScreen />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Settings"
+        options={{
+          tabBarLabel: 'Profil',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="emoticon-cool" color={color} size={size} />
+          ),
+        }}
+        component={SettingsScreen}
+      />
     </Tab.Navigator>
   )
 }
@@ -97,7 +120,7 @@ const AuthStack = () => {
       initialRouteName="SignUp"
       screenOptions={{ headerShown: false }}
     >
-      <StackForAuth.Screen name="SignUp"  component={SignUp} />
+      <StackForAuth.Screen name="SignUp" component={SignUp} />
       <StackForAuth.Screen name="SignIn" component={SignIn} />
     </StackForAuth.Navigator>
   )
@@ -114,7 +137,7 @@ const MainStack = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="MainApp">{() => <AppTab />}</Stack.Screen>
-      <Stack.Screen name="Settings" component={RecipeScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   )
 }

@@ -15,7 +15,7 @@
                 },
                 "signup": {
                         "title": "Bienvenue sur Weekook",
-                        "description": "Créez votre compte gratuit pour commencer votre planning de cuisine.",
+                        "description": "Créez votre compte gratuit et démarrer votre planning de cuisine.",
                         "submitButton": "Sign In",
                         "terms": {
                                 "conditions": {
@@ -35,7 +35,7 @@
                 },
                 "signin": {
                         "title": "Connexion à Weekook",
-                        "description": "Utilisez vos identifiants pour retrouver vos recettes!",
+                        "description": "Utilisez vos identifiants pour retrouver vos recettes préférées!",
                         "or": "OU",
                         "email_password": {
                                 "email": {
